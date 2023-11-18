@@ -581,6 +581,13 @@ func reconstructFuncOfOptional(columnIndex int16, node Node) (int16, reconstruct
 	return nextColumnIndex, func(value reflect.Value, levels levels, columns [][]Value) error {
 		levels.definitionLevel++
 
+		if len(columns) == 0 {
+			return nil
+		}
+		if len(columns[0]) == 0 {
+			return nil
+		}
+
 		if columns[0][0].definitionLevel < levels.definitionLevel {
 			value.Set(reflect.Zero(value.Type()))
 			return nil
